@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inception | 1337 Project</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        a {
+            text-decoration: none !important;
+            outline: none !important;
+        }
+
+        section {
+            display: grid;
+            height: 100vh;
+            align-content: space-between;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            position: relative;
+        }
+
+        .left-container {
+            background-image: url(https://spltech.co.uk/wp-content/uploads/2021/12/wordpress-banner.jpg);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .right-container {
+            background-color: white;
+            padding: 30px 40px;
+            display: flex;
+            flex-direction: column;
+            align-content: space-between;
+            margin-left: 5%;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+            font-size: 0.7rem;
+        }
+
+        h1 {
+            margin: 40px 0 10px;
+            font-size: 2.5rem;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 300;
+        }
+
+        .evaluation {
+            /* display: flex; */
+        }
+
+        #wordpress {
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        #adminer {
+            cursor: pointer;
+        }
+        button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 40px;
+            font-size: 0.8rem;
+            padding: 8px;
+            font-weight: 500;
+            border-radius: 50px;
+            background-color: white;
+            margin-top: 15px;
+            border: 1px solid #969696;
+
+        }
+
+        #adminer {
+            border: none;
+            background-color: #3BA9EE;
+            color: white;
+        }
+        @media screen and (max-width: 790px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+
+            .right-container {
+                margin: 0 auto;
+            }
+
+            .left-container {
+                height: 20vh;
+            }
+
+        
+            h1 {
+                margin-top: 0;
+            }
+
+            .evaluation {
+                margin-top: 15px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <section class="hero">
+        <div class="main-container">
+            <div class="left-container">
+            </div>
+            <div class="right-container">
+                <div class="title">
+                    <h1>Inception</h1>
+                    <h3>This project aims to broaden your knowledge of system administration by using Docker </h3>
+                </div>
+
+                <div style="margin-top: 70px;" class="title">
+                    <h1>Evaluation</h1>
+                </div>
+
+                <div class="evaluation">
+                    <a href="index.php">
+                        <button id="wordpress">
+                            Wordpress
+                        </button>
+                    </a>
+                    <a href="/wp-admin">
+                        <button id="wordpress">
+                            Wordpress Dashboard
+                        </button>
+                    </a>
+                    <a href="http://localhost:5000" target="_blank">
+                        <button id="adminer">Adminer</button>
+                    </a>
+                </div>
+
+                <div style="margin-top: 40px;" class="title">
+                    <h1>Contact</h1>
+                    <h3>
+                        This is my inception project from the 1337 cursus, if you need any further information contact
+                        me: yait-bam@student.1337.ma
+                    </h3>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

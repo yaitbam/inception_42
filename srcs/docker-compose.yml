@@ -1,0 +1,133 @@
+version: '3'
+services:
+  wordpress:
+    build: requirements/wordpress/
+    image: wordpress
+    networks:
+      - default
+    container_name: wordpress
+    volumes:
+      - wordpress-volume:/var/www/html
+    environment:
+      - MARIADB_USER=${MARIADB_USER}
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+      - MARIADB_DATABASE=${MARIADB_DATABASE}
+      - MARIADB_PORT=${MARIADB_PORT}
+      - MARIADB_HOST=${MARIADB_HOST}
+    depends_on:
+        - mariadb
+    restart: always
+
+  mariadb:
+    build: requirements/mariadb/
+    image: mariadb
+    networks:
+      - default
+    container_name: mariadb
+    volumes:
+      - mariadb-volume:/var/lib/mysql
+    environment:
+      - MARIADB_USER=${MARIADB_USER}
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+      - MARIADB_DATABASE=${MARIADB_DATABASE}
+      - MARIADB_PORT=${MARIADB_PORT}
+      - MARIADB_HOST=${MARIADB_HOST}
+    restart: always
+
+
+  nginx:
+    build: requirements/nginx/
+    image: nginx
+    networks:
+      - default
+    container_name: nginx
+    ports:
+        - '443:443'
+    volumes:
+      - wordpress-volume:/var/www/html
+    environment:
+      - DOMAIN_NAME=${DOMAIN_NAME}
+      - CERT_NGINX_KEY=${CERT_NGINX_KEY}
+      - CERT_NGINX_CRT=${CERT_NGINX_CRT}
+    depends_on:
+        - wordpress
+    restart: always
+
+  redis:
+    build: requirements/bonus/redis
+    container_name: redis
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - default
+    restart: always
+
+  ftp-server:
+    build: requirements/bonus/ftp-server
+    container_name: ftp-server
+    image: ftp-server
+    ports:
+      - "21:21"
+      - "21000:21000"
+    volumes:
+      - wordpress-volume:/home/yait-bam/
+    networks:
+      - default
+    restart: always
+    environment:
+      FTP_USR: ${FTP_USR}
+      FTP_PWD: ${FTP_PWD}
+
+  adminer:
+    build: requirements/bonus/adminer/
+    container_name: adminer
+    image: adminer
+    ports:
+        - '5000:5000'
+    depends_on:
+      - mariadb
+    networks:
+      - default
+    volumes:
+      - mariadb-volume:/var/lib/mysql
+    restart: always
+
+  backup:
+    build: requirements/bonus/backup/
+    container_name: backup
+    image: backup
+    networks:
+      - default
+    depends_on:
+      - mariadb
+    volumes:
+      - mariadb-volume:/db-data
+      - backup-volume:/backup
+    restart: always
+
+networks:
+  default:
+    external:
+      name: inception_network
+
+
+volumes:
+  mariadb-volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${MARIADB_HOST_VOLUME_PATH}
+      o: bind
+  wordpress-volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${WORDPRESS_HOST_VOLUME_PATH}
+      o: bind
+  backup-volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${BACKUP_VOLUME_PATH}
+      o: bind
